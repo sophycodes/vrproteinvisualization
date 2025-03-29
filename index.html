@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protein Data Visualization</title>
+    
+    <!-- Load A-Frame and required components -->
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
+
+
+    
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+   
+        #error-message {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 101;
+            display: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 10;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .controls button {
+            margin: 5px;
+            padding: 5px 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .controls button:hover {
+            background: #0056b3;
+        }
+
+      
+
+        .instructions {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 999;
+    
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+    <div class="instructions">
+        <p>Click and drag to rotate the view. Use WASD keys to move around.</p>
+        <p>Use the buttons at the bottom to switch visualizations.</p>
+        <p>Hover over a marker to see protein details.</p>
+      </div>
+    
+    <div id="error-message"></div>
+
+    <!-- Loading Indicator Before A-Frame Scene -->
+    <div id="loading-indicator" style="
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        font-size: 18px;
+        text-align: center;
+        z-index: 2000;
+        display: none; /* Initially hidden */
+    ">
+        Loading, please wait...
+    </div>
+    
+    <div class="controls">
+        <!-- Buttons -->
+        <button id="view-ball-stick">Ball & Stick</button>
+        <button id="view-space-filling">Space Filling</button>
+        <button id="view-chainA">Chain A</button>
+        <button id="view-chainB">Chain B</button>
+        <button id="view-chainC">Chain C</button>
+        <button id="view-chainD">Chain D</button>
+
+        <!-- Dropdown Menu -->
+        <select id="residueDropdown" onchange="displayResidue(this.value)">
+            <option value="">Select Residue</option>
+        </select>
+    </div>
+
+
+
+    <a-scene background="color: #2A1A5E" protein-vr-environment>
+        <!-- Our VR content will go here -->
+        <!-- Visualization container -->
+        <a-entity id="protein-visualization" protein-visualization structure-handler></a-entity>
+        <a-entity id="protein-viz-container" protein-visualization structure-handler></a-entity>
+
+        <!-- User position and camera -->
+        <!-- The user starts at eye height (1.6 meters high) -->
+        <a-entity id="rig" position="4 1.6 0" dynamic-body>
+            <!--automatically tracks the user's head movement if a VR headset-->
+            <a-camera look-controls wasd-controls="acceleration: 20" position="0 1 -2">
+                <!-- smoother movement for hand-tracking & gaze-based interactions-->
+                <a-entity laser-controls raycaster="objects: .interactive;"></a-entity>
+                <!-- Adds a cursor (a small dot in the center of the screen) -->
+                <a-cursor color="#4CC3D9"></a-cursor>
+
+             </a-camera>
+        </a-entity>
+
+        <div id="component-buttons" style="position: fixed; top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; padding: 10px; border-radius: 5px; z-index: 100;">
+
+            <div id="buttons-container"></div>
+        </div>
+
+        <!-- Add a light to better show the visualization -->
+        <a-light type="ambient" color="#BBB"></a-light>
+        <a-light type="directional" color="#FFF" intensity="0.6" position="-1 1 2"></a-light>
+    </a-scene>
+
+    <script src="protein_visualization.js"></script>
+ 
+
+</body>
+</html>
