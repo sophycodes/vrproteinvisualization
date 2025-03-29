@@ -1054,7 +1054,7 @@ AFRAME.registerComponent('protein-visualization', {
 
         residueTypeList.forEach((type, index) => {
 
-            // CHAT GPT: Calculate row and column positions
+            //Calculate row and column positions
             const row = Math.floor(index / columns); // Determines which row
             const col = index % columns; // Determines which column
 
