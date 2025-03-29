@@ -277,7 +277,7 @@ AFRAME.registerComponent('protein-visualization', {
         let bondArray = Object.entries(this.connections);
         let bondIndex = 0;
     
-        // CHAT GPT Helped with the render repsonse because my visualization was lagging 
+        // fix lagging 
         const renderBonds = () => {
             //Show Loading Indicator
             this.displayLoadingIndicator(true);
