@@ -1,4 +1,4 @@
-🧬 Immersive VR Protein Visualization – CSCI 181DV Assignment 5
+🧬 Immersive VR Protein Visualization
 
 This project is an interactive 3D/VR visualization of the deoxyhemoglobin protein structure (PDB ID: 1A3N), developed using A-Frame. 
 
